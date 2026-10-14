@@ -79,3 +79,17 @@ YunYou/
 - 下一步要做的事变了。
 
 更新规则：**新结论写在前面，旧事实标注「已于 YYYY-MM-DD 被 X 取代」，不要静默覆盖。**
+
+## Agent skills
+
+### Issue tracker
+
+Issue 与规格存在本仓库的 GitHub Issues 里，统一用 `gh` CLI 读写。 See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+沿用默认的五个 triage 角色，标签字符串与角色同名。 See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+single-context. See `docs/agents/domain.md`.

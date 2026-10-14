@@ -23,7 +23,10 @@
   - `Footer.vue` 第 55 行 ICP 备案号仍是 `冀ICP备XXXXXXXX号` 占位。【代码事实】
   - `public/reference.png` 是设计参考图，**它对应哪一版设计、是否仍为现行方向【待确认】**。
   - 友链 `url` 全部是 `https://example.com` 占位。【代码事实】
-- **版本管理**：项目根与 `frontend/` 下**均无 `.git`**。【代码事实】
+- **版本管理**：**已于 2026-10-14 建立 Git 仓库并推送 GitHub**。远程 `origin` = `https://github.com/clickes/YunYou.git`（HTTPS，凭据走 gh 的 credential helper），分支 `main`，提交 `74263b2`（首次，59 文件）+ `1b334a8`（Pages 工作流）。【本轮实测】（旧事实「项目根与 `frontend/` 下均无 `.git`」**已于 2026-10-14 被 Git 初始化取代**。）
+- **GitHub 仓库 / Pages**：`clickes/YunYou`（public）。Pages 站 <https://clickes.github.io/YunYou/>，`build_type=workflow`。**站点是 2026-10-14 用用户 PAT 走 `gh api --method POST repos/clickes/YunYou/pages -f build_type=workflow` 手工创建的**——首次跑 `actions/configure-pages@v5`（`enablement:true`）时 GITHUB_TOKEN 报 `Resource not accessible by integration`，建不了站。【本轮实测】
+- **技能配置**：2026-10-14 跑过 `/setup-matt-pocock-skills`，产出 `docs/agents/issue-tracker.md`（GitHub 后端）/ `triage-labels.md`（默认五角色）/ `domain.md`（single-context），并在 `AGENTS.md` 末尾追加 `## Agent skills` 块；仓库标签已建齐 triage 五角色 + wayfinder 五个。【本轮实测】
+- **遗留未做**：SSH key 已生成（`C:\Users\Administrator.DESKTOP-QV7CIK7\.ssh\id_ed25519`）但**尚未注册到 GitHub**——`gh` token 缺 `admin:public_key` scope，API 直接回 404；远程目前仍是 HTTPS。【本轮实测】
 - **本机 gh 已装好 / 已登录 / 已接上 git**：`gh` 2.102.0（2026-10-14 经 winget 包 `GitHub.cli` 装到 `C:\Program Files\GitHub CLI\gh.exe`，机器级 PATH 已含该目录）；已登录 github.com 账号 **clickes**（token 存 keyring，协议 https，scopes：gist / read:org / repo / workflow）；`gh auth setup-git --hostname github.com` 已写入 `C:\Users\Administrator.DESKTOP-QV7CIK7\.gitconfig`。实测 `gh api user` 可用。【本轮实测】
 - **临时文件（可直接删）**：项目根 `gh-setup-wizard.sh`（2026-10-14 新建）是装 gh 的一次性向导，**它那 4 个 stage 现在全部已完成**，文件已无用途，删掉即可。【本轮用户明确，位置由用户指定】
 
@@ -76,7 +79,7 @@
 - **K2【代码事实，观察】** 所有数据都在 `mock/data.js` 里以 ESM 导出。接后端时不要在视图组件里散落 `fetch`，应先在这一层做数据访问抽象。
 - **K3【代码事实，观察】** 主题切换依赖 `<html data-theme="yueye">` 选择器（见 `stores/theme.js`）。**新增 CSS 变量时必须在两套选择器里都声明**，否则月夜主题下会漏色。
 - **K4【代码事实，观察】** `App.vue` 里全局注册了 `InkCursor`、`SealClick`、`SeasonDecoration`、`SiteStats`，阅读模式（`isReaderMode`）下会整批隐藏——加新的全局装饰组件时，记得决定它在阅读模式下要不要也隐藏。
-- **K5【本轮新发现】** 项目**没有 Git**。任何"我帮你回退一下"类操作都做不到，改动前先想清楚，别手滑覆盖。
+- **K5【已于 2026-10-14 被 Git 初始化取代】** ~~项目**没有 Git**，任何"我帮你回退一下"类操作都做不到。~~ 现在有了：`main` 分支 + `origin` 远程，回退可行。**随之而来的新坑**：`frontend/dist/` 与 `node_modules/` 已被 `.gitignore` 排除，别指望从仓库里拿到构建产物；但 `frontend/public/` 下的大图**是进仓库的**（最大 `china-knot.png` 2.45MB），换图前留意仓库体积。另：`index.html:5` 引用的 `/vite.svg` 在 `public/` 里并不存在（实际是 `favicon.svg`），线上会有一个 404，属**既有问题、非本次引入**。
 - **K6【代码事实】** `index.html` 直接从 Google Fonts 拉 `Noto Serif SC / Ma Shan Zheng / ZCOOL XiaoWei / JetBrains Mono`。国内网络环境下首屏可能慢或加载失败，是否换本地字体 / 国内 CDN【待确认】。
 - **K7【本轮新发现，环境】** 本机**没装 WSL**：PATH 上的 `bash` / `sh` 是 Windows 的 WSL 存根，直接执行会失败（`execvpe(/bin/bash) failed: No such file or directory`）。要跑 shell 脚本请用 **Git Bash**：`D:\ruanjian\git\Git\bin\bash.exe`（bash 5.3.15）。若某次 shell 调用报 `EPERM` 拿不到子进程输出，直接改成「写临时脚本文件 + 用 Git Bash 执行」，比换写法反复重试快。
 
@@ -90,7 +93,7 @@
 2. 是否接入真实文章数据 / Markdown 文件目录，替换 `src/mock/data.js`。
 3. ICP 备案号替换。
 4. Google Fonts 在国内的加载方案。
-5. 是否初始化 Git 并做首次提交。
+5. ~~是否初始化 Git 并做首次提交。~~ **已于 2026-10-14 完成**（建仓 `clickes/YunYou` + Pages 自动部署）。
 6. 留言板 / 评论是否要真的能提交（目前只有 mock 评论，仅文章 id=1 有数据）。
 7. `reference.png` 是否仍是现行设计基准；若不是，新的视觉基准是什么。
 8. 友链 `example.com` 占位是否替换为真实友链。
@@ -106,6 +109,15 @@
 ## 六、制作历史（可追溯）
 
 > 规则：新记录追加在最上面；旧做法被取代时，把那一条划掉并注明"已于 YYYY-MM-DD 被 X 取代"，不要删除原文。
+
+### 2026-10-14 — GitHub 仓库 + Pages 自动部署 + 技能套件初始化
+- 用户拍板（原话）：「用 gh 给云游博客建仓库、推上去（这个项目目前还没有 Git）／把仓库接上 GitHub Pages / Actions 自动部署／配 SSH key 而不是 HTTPS」。
+- 建仓：`git init -b main` → 首次提交 `74263b2`（59 文件）→ `gh repo create YunYou --public --source=. --remote=origin --push` → <https://github.com/clickes/YunYou>。Git 身份用 `clickes` / `123528660+clickes@users.noreply.github.com`（全局配置）。
+- Pages：新增 `.github/workflows/deploy.yml`（Node 22 + `npm ci` + `VITE_BASE=/${{ github.event.repository.name }}/` + 复制 `dist/index.html` 为 `404.html` 兜底 SPA 深链）；`frontend/vite.config.js` 的 `base` 改为 `process.env.VITE_BASE || '/'`，本地开发行为不变。
+- **坑（会复发）**：首次工作流失败在 `Setup Pages` 步 —— `Create Pages site failed. Error: Resource not accessible by integration`。**原因不是权限块写错**（`permissions: pages: write` 本来就在），而是**仓库从未开过 Pages，GITHUB_TOKEN 建不了站**。修法：用自己的 PAT 先跑 `gh api --method POST repos/clickes/YunYou/pages -f build_type=workflow` 把站点建出来，再重跑工作流即绿。
+- SSH：生成了 `~/.ssh/id_ed25519`（ed25519，邮箱用 `123528660+clickes@users.noreply.github.com`），**但注册失败** —— `gh api --method POST /user/keys` 回 404，提示 token 需要 `admin:public_key` scope（当前只有 gist / read:org / repo / workflow）。需 `gh auth refresh -h github.com -s admin:public_key`，或到 <https://github.com/settings/ssh/new> 手工粘贴公钥。**远程目前仍是 HTTPS，未切换。**
+- 技能：跑 `/setup-matt-pocock-skills`（后端选 GitHub）。建了 10 个标签（`wontfix` 是 GitHub 默认自带的，其余 9 个新建）；写 `docs/agents/` 三份文档 + `AGENTS.md` 末尾的 `## Agent skills` 块。
+- **命名分歧（待用户确认）**：用户口述是「根目录的 `CONTEXT.md`」，但技能自身（`domain-modeling` 的 `GLOSSARY-FORMAT.md`）硬编码找的是 **`GLOSSARY.md`**，所以 `docs/agents/domain.md` 里按技能写成了 `GLOSSARY.md`。若确实想用 `CONTEXT.md`，要连 `docs/agents/domain.md` 的读取规则一起改。
 
 ### 2026-10-14 — 直接装好 GitHub CLI（gh 2.102.0）
 - 用户连发三次 `/wizard 安装 gh cli`，追问后确认真实诉求是「直接装好」，于是不再只交脚本、改为代为安装。
