@@ -82,6 +82,8 @@
 - **K5【已于 2026-10-14 被 Git 初始化取代】** ~~项目**没有 Git**，任何"我帮你回退一下"类操作都做不到。~~ 现在有了：`main` 分支 + `origin` 远程，回退可行。**随之而来的新坑**：`frontend/dist/` 与 `node_modules/` 已被 `.gitignore` 排除，别指望从仓库里拿到构建产物；但 `frontend/public/` 下的大图**是进仓库的**（最大 `china-knot.png` 2.45MB），换图前留意仓库体积。另：`index.html:5` 引用的 `/vite.svg` 在 `public/` 里并不存在（实际是 `favicon.svg`），线上会有一个 404，属**既有问题、非本次引入**。
 - **K6【代码事实】** `index.html` 直接从 Google Fonts 拉 `Noto Serif SC / Ma Shan Zheng / ZCOOL XiaoWei / JetBrains Mono`。国内网络环境下首屏可能慢或加载失败，是否换本地字体 / 国内 CDN【待确认】。
 - **K7【本轮新发现，环境】** 本机**没装 WSL**：PATH 上的 `bash` / `sh` 是 Windows 的 WSL 存根，直接执行会失败（`execvpe(/bin/bash) failed: No such file or directory`）。要跑 shell 脚本请用 **Git Bash**：`D:\ruanjian\git\Git\bin\bash.exe`（bash 5.3.15）。若某次 shell 调用报 `EPERM` 拿不到子进程输出，直接改成「写临时脚本文件 + 用 Git Bash 执行」，比换写法反复重试快。
+- **K8【本轮新发现，环境】** 本会话 shell 工具**实际是 Windows PowerShell 5.1**（`$PSVersionTable.PSVersion` = `5.1.26100.9444`），**不是 PowerShell 7**。已踩到两个后果：① **没有 `-SkipHttpErrorCheck`**（PS 7.0 才有），想拿 4xx 状态码只能 `try/catch` + `$_.Exception.Response.StatusCode.value__`，或者干脆用 `curl.exe -sS -o NUL -w "%{http_code} %{size_download}"`（本机 curl 可用，联网也通）；② **`Out-File -Encoding utf8` 会写 BOM**，拿它生成 git commit message 会让首行变成 `chore:`（BOM 混进提交信息，`git log` 里看得见）。要无 BOM 请用 `[System.IO.File]::WriteAllText($path, $text, (New-Object System.Text.UTF8Encoding($false)))`。
+- **K9【本轮新发现，GitHub】** 仓库**从未开过 Pages 时，`actions/configure-pages@v5` 的 `enablement: true` 建不了站**，会报 `Create Pages site failed. Error: Resource not accessible by integration`——即使 workflow 里 `permissions: pages: write` 已经写对。解法是用自己的 PAT 先建站：`gh api --method POST repos/<owner>/<repo>/pages -f build_type=workflow`，之后工作流即可跑通。**排查时不要先去改 permissions 块，那是死路。**
 
 ---
 
