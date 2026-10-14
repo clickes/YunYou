@@ -1,0 +1,92 @@
+:root {
+  /* ==========================================
+     敦煌壁画主题（默认）- 暖色调
+     仿莫高窟壁黄土底色，矿物颜料厚重感
+     适用于白天阅读，温暖古朴
+  ========================================== */
+
+  /* 敦煌底色 - 澄板土/蛤粉，仿壁画墙皮 */
+  --bg-primary: #F5EEDD;
+  --bg-secondary: #EDE3CC;
+  --bg-tertiary: #E0D2B0;
+  --bg-card: #FBF6E8;
+
+  /* 墨色系 - 文字，深褐墨 */
+  --text-primary: #2A2018;
+  --text-secondary: #5A4A38;
+  --text-muted: #8A7A68;
+  --title-color: #1A1410;
+
+  /* 敦煌矿物色 - 强调色 */
+  --accent-red: #B84A3A;       /* 朱砂红 - 鲜艳点睛 */
+  --accent-zhusha: #C85A48;
+  --accent-gold: #C9A84C;       /* 泥金 - 装饰金 */
+  --accent-jin: #D4B85C;
+  --accent-jade: #4A8A7A;       /* 孔雀绿 - 石绿 */
+  --accent-shilu: #2A7A9A;      /* 石青 - 蓝铜矿 */
+  --accent-zhe: #9A6A3A;        /* 赭石 - 土黄 */
+  --accent-mo: #3A2A1A;
+  --accent-lianban: #D8A3A0;    /* 莲瓣粉 */
+
+  /* 边框与阴影 */
+  --border-color: #C8B898;
+  --border-light: #D8CCB0;
+  --shadow-color: rgba(42, 32, 24, 0.1);
+  --shadow-strong: rgba(42, 32, 24, 0.18);
+  --overlay-bg: rgba(26, 20, 16, 0.65);
+
+  /* 字体 */
+  --font-title: 'Ma Shan Zheng', 'ZCOOL XiaoWei', cursive;
+  --font-body: 'Noto Serif SC', 'SimSun', serif;
+  --font-kai: 'ZCOOL XiaoWei', 'KaiTi', serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* 布局 */
+  --max-width: 1200px;
+  --content-width: 800px;
+  --nav-height: 64px;
+  --radius: 2px;
+  --radius-lg: 4px;
+
+  /* 过渡 */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* ==========================================
+   敦煌月夜主题 - 冷色调
+   仿洞窟夜景，深蓝夜空+银白+石青
+   适用于夜间阅读，神秘深邃
+========================================== */
+[data-theme="yueye"] {
+  /* 夜空底色 - 洞窟深蓝 */
+  --bg-primary: #1A2A3A;
+  --bg-secondary: #162230;
+  --bg-tertiary: #0F1A26;
+  --bg-card: #1E3040;
+
+  /* 文字色 - 银白月光 */
+  --text-primary: #E8E0D0;
+  --text-secondary: #B8B0A0;
+  --text-muted: #8A8070;
+  --title-color: #F5EEDD;
+
+  /* 矿物色 - 冷调敦煌 */
+  --accent-red: #D86A5A;       /* 朱砂 - 夜间提亮 */
+  --accent-zhusha: #E87A6A;
+  --accent-gold: #D4B85C;       /* 泥金 - 月光金 */
+  --accent-jin: #E4C86C;
+  --accent-jade: #5AAA9A;       /* 石绿 - 冷调 */
+  --accent-shilu: #4A9ABA;      /* 石青 - 月夜蓝 */
+  --accent-zhe: #B88A5A;        /* 赭石 - 暖点缀 */
+  --accent-mo: #C8B8A0;
+  --accent-lianban: #E8B3B0;    /* 莲瓣粉 */
+
+  /* 边框与阴影 */
+  --border-color: #3A5060;
+  --border-light: #4A6070;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --shadow-strong: rgba(0, 0, 0, 0.5);
+  --overlay-bg: rgba(0, 0, 0, 0.75);
+}

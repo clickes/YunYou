@@ -1,0 +1,616 @@
+@import './variables.css';
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.9;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  transition: background-color var(--transition-slow), color var(--transition-slow);
+  overflow-x: hidden;
+  background-image:
+    /* 敦煌壁画肌理 */
+    url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='mural'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0.15'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23mural)' opacity='0.05'/%3E%3C/svg%3E"),
+    /* 敦煌莲花暗纹 */
+    url("data:image/svg+xml,%3Csvg width='400' height='400' viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cg opacity='0.04' fill='%23B84A3A'%3E%3Cpath d='M200 150 Q210 130 200 110 Q190 130 200 150 M180 160 Q160 150 150 130 Q170 140 180 160 M220 160 Q240 150 250 130 Q230 140 220 160'/%3E%3C/g%3E%3Cg opacity='0.03' fill='%232A7A9A'%3E%3Ccircle cx='100' cy='300' r='3'/%3E%3Ccircle cx='300' cy='100' r='2'/%3E%3Ccircle cx='350' cy='350' r='2.5'/%3E%3C/g%3E%3C/svg%3E"),
+    /* 暖色光晕 */
+    radial-gradient(ellipse at 20% 20%, rgba(200, 168, 76, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(42, 122, 154, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(184, 74, 58, 0.03) 0%, transparent 70%);
+}
+
+a { color: var(--accent-shilu); text-decoration: none; transition: all var(--transition-fast); position: relative; }
+a:hover { color: var(--accent-red); }
+img { max-width: 100%; height: auto; display: block; }
+ul, ol { list-style: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+input, textarea { font-family: inherit; font-size: inherit; outline: none; }
+
+::selection { background: var(--accent-red); color: #fff; }
+
+/* 敦煌风格滚动条 */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='30' viewBox='0 0 10 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 0 Q2 7 5 15 Q8 23 5 30' stroke='%23C8B898' stroke-width='0.5' opacity='0.4' fill='none'/%3E%3C/svg%3E");
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--accent-gold), var(--accent-zhe));
+  border-radius: 5px;
+  border: 2px solid var(--bg-secondary);
+  box-shadow: inset 0 0 4px rgba(255,255,255,0.2);
+}
+::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, var(--accent-red), var(--accent-zhusha)); }
+
+.container { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
+.content-container { max-width: var(--content-width); margin: 0 auto; padding: 0 20px; }
+.title-font { font-family: var(--font-title); }
+.kai-font { font-family: var(--font-kai); }
+
+/* 竖排阅读模式 */
+.vertical-mode {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  line-height: 2.2;
+  letter-spacing: 4px;
+}
+.vertical-mode p { margin: 0 1.5rem; }
+.vertical-mode h1, .vertical-mode h2, .vertical-mode h3 { margin: 0 1.5rem; }
+
+/* ===== 敦煌风格页面标题 ===== */
+.page-title {
+  font-family: var(--font-title);
+  font-size: 2.8rem;
+  color: var(--title-color);
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+  padding: 1.5rem 0 2rem;
+  letter-spacing: 10px;
+}
+/* 标题上方卷草纹 */
+.page-title::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  height: 16px;
+  background-image: url("data:image/svg+xml,%3Csvg width='280' height='16' viewBox='0 0 280 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%23C9A84C' stroke-width='1' fill='none' opacity='0.6'%3E%3Cpath d='M0 8 Q15 2 30 8 Q45 14 60 8 Q75 2 90 8 Q105 14 120 8 Q135 2 150 8 Q165 14 180 8 Q195 2 210 8 Q225 14 240 8 Q255 2 270 8'/%3E%3Ccircle cx='140' cy='8' r='2' fill='%23B84A3A' opacity='0.7'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+/* 标题下方莲花纹 */
+.page-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 24px;
+  background-image: url("data:image/svg+xml,%3Csvg width='200' height='24' viewBox='0 0 200 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%23C9A84C' stroke-width='1' fill='none' opacity='0.5'%3E%3Cpath d='M0 12 Q20 6 40 12 Q60 18 80 12 Q100 6 120 12 Q140 18 160 12 Q180 6 200 12'/%3E%3C/g%3E%3Cg fill='%23B84A3A' opacity='0.6'%3E%3Ccircle cx='100' cy='12' r='3'/%3E%3Cpath d='M100 6 Q105 2 100 0 Q95 2 100 6'/%3E%3Cpath d='M94 12 Q90 8 92 4 Q96 6 94 12'/%3E%3Cpath d='M106 12 Q110 8 108 4 Q104 6 106 12'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* ===== 敦煌洞窟风格卡片 ===== */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 1.8rem;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+/* 内层描边 */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 6px; left: 6px; right: 6px; bottom: 6px;
+  border: 1px solid var(--border-light);
+  border-radius: calc(var(--radius) - 1px);
+  pointer-events: none;
+  opacity: 0.5;
+}
+/* 左上莲花角花 */
+.card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 28px; height: 28px;
+  background-image: url("data:image/svg+xml,%3Csvg width='28' height='28' viewBox='0 0 28 28' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%23C9A84C' stroke-width='1.2' fill='none' opacity='0.6'%3E%3Cpath d='M0 0 L28 0 M0 0 L0 28'/%3E%3Cpath d='M6 6 Q10 4 14 6 Q10 8 6 6'/%3E%3Ccircle cx='6' cy='6' r='1.5' fill='%23B84A3A' opacity='0.5'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  transition: all var(--transition-fast);
+}
+.card:hover {
+  border-color: var(--accent-gold);
+  box-shadow: 0 8px 30px var(--shadow-color), 0 0 20px rgba(201, 168, 76, 0.1);
+  transform: translateY(-4px);
+}
+.card:hover::after { opacity: 1; }
+
+/* ===== 敦煌壁画龛楣卡片 ===== */
+.card-mural {
+  background: var(--bg-card);
+  border: none;
+  border-radius: var(--radius);
+  padding: 2rem;
+  position: relative;
+  box-shadow:
+    inset 0 0 40px rgba(74, 74, 56, 0.04),
+    3px 3px 12px var(--shadow-color);
+}
+/* 顶部龛楣装饰线 */
+.card-mural::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 6px;
+  background: linear-gradient(90deg,
+    var(--accent-shilu) 0%,
+    var(--accent-gold) 20%,
+    var(--accent-jade) 50%,
+    var(--accent-gold) 80%,
+    var(--accent-shilu) 100%);
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+/* 底部装饰线 */
+.card-mural::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg,
+    transparent,
+    var(--accent-gold) 30%,
+    var(--accent-lianban) 50%,
+    var(--accent-gold) 70%,
+    transparent);
+  opacity: 0.5;
+}
+
+/* ===== 敦煌风格按钮 ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 2rem;
+  border: 1.5px solid var(--accent-gold);
+  border-radius: 2px;
+  color: var(--accent-gold);
+  background: transparent;
+  font-size: 0.9rem;
+  font-family: var(--font-kai);
+  letter-spacing: 4px;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(201, 168, 76, 0.3), transparent);
+  transition: left 0.6s ease;
+}
+.btn:hover {
+  background: var(--accent-gold);
+  color: var(--bg-primary);
+  box-shadow: 0 4px 20px rgba(201, 168, 76, 0.4);
+}
+.btn:hover::before { left: 100%; }
+.btn-primary {
+  background: var(--accent-red);
+  border-color: var(--accent-red);
+  color: #fff;
+}
+.btn-primary:hover {
+  background: #A03A2A;
+  border-color: #A03A2A;
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(184, 74, 58, 0.4);
+}
+.btn-ghost {
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+}
+.btn-ghost:hover {
+  border-color: var(--accent-red);
+  color: var(--accent-red);
+  background: transparent;
+}
+
+/* ===== 敦煌标签 - 飘带式 ===== */
+.tag {
+  display: inline-block;
+  padding: 0.3rem 1rem;
+  font-size: 0.8rem;
+  border-radius: 0 12px 12px 0;
+  background: linear-gradient(90deg, var(--accent-shilu), var(--accent-jade));
+  color: #fff;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  font-family: var(--font-kai);
+  letter-spacing: 2px;
+  position: relative;
+  margin-right: 10px;
+  margin-bottom: 8px;
+  box-shadow: 2px 2px 6px rgba(42, 122, 154, 0.2);
+}
+/* 左侧飘带缺口 */
+.tag::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  background: var(--bg-card);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+.tag:hover {
+  background: linear-gradient(90deg, var(--accent-red), var(--accent-zhusha));
+  transform: translateX(3px);
+  box-shadow: 2px 4px 10px rgba(184, 74, 58, 0.3);
+}
+
+/* ===== 敦煌印章 ===== */
+.seal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-red);
+  color: #fff;
+  font-family: var(--font-title);
+  border-radius: 3px;
+  padding: 6px 14px;
+  letter-spacing: 4px;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.3), inset 0 0 10px rgba(255,255,255,0.15);
+  transform: rotate(-3deg);
+  position: relative;
+}
+.seal::before {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px; right: 3px; bottom: 3px;
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 2px;
+}
+
+/* 动画 */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes muralReveal { 0% { clip-path: inset(0 100% 0 0); } 100% { clip-path: inset(0 0 0 0); } }
+@keyframes sealStamp { 0% { transform: scale(2.5) rotate(-15deg); opacity: 0; } 40% { transform: scale(0.85) rotate(3deg); opacity: 1; } 70% { transform: scale(1.05) rotate(-1deg); } 100% { transform: scale(1) rotate(-3deg); opacity: 1; } }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes glow { 0%, 100% { box-shadow: 0 0 5px var(--accent-gold); } 50% { box-shadow: 0 0 20px var(--accent-gold), 0 0 30px var(--accent-red); } }
+@keyframes ribbonFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+@keyframes cloudDrift { 0% { transform: translateX(-100%); } 100% { transform: translateX(100vw); } }
+
+.animate-fadeIn { animation: fadeIn 0.6s ease forwards; }
+.animate-fadeInUp { animation: fadeInUp 0.8s ease forwards; }
+.animate-seal { animation: sealStamp 0.6s ease forwards; }
+.animate-mural { animation: muralReveal 1.2s ease forwards; }
+
+/* ===== 敦煌卷草纹分隔线 ===== */
+.divider-cloud {
+  height: 24px;
+  background-image: url("data:image/svg+xml,%3Csvg width='120' height='24' viewBox='0 0 120 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%23C9A84C' stroke-width='1' fill='none' opacity='0.5'%3E%3Cpath d='M0 12 Q15 4 30 12 Q45 20 60 12 Q75 4 90 12 Q105 20 120 12'/%3E%3Ccircle cx='60' cy='12' r='2.5' fill='%23B84A3A' opacity='0.6'/%3E%3Cpath d='M60 6 Q65 2 60 0 Q55 2 60 6'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: center;
+  margin: 2.5rem 0;
+}
+
+/* ===== 敦煌莲花分隔线 ===== */
+.divider-lotus {
+  height: 30px;
+  background-image: url("data:image/svg+xml,%3Csvg width='200' height='30' viewBox='0 0 200 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%23C9A84C' stroke-width='1' fill='none' opacity='0.4'%3E%3Cpath d='M0 15 Q25 8 50 15 Q75 22 100 15 Q125 8 150 15 Q175 22 200 15'/%3E%3C/g%3E%3Cg fill='%23B84A3A' opacity='0.5'%3E%3Ccircle cx='100' cy='15' r='4'/%3E%3Cpath d='M100 8 Q108 3 100 0 Q92 3 100 8'/%3E%3Cpath d='M92 15 Q86 10 89 4 Q95 7 92 15'/%3E%3Cpath d='M108 15 Q114 10 111 4 Q105 7 108 15'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: 2.5rem 0;
+}
+
+/* ===== 敦煌卷轴容器 ===== */
+.scroll-container {
+  position: relative;
+  background: var(--bg-card);
+  padding: 2.5rem 2rem;
+  margin: 1.5rem 0;
+  border-left: 3px solid var(--accent-gold);
+  border-right: 3px solid var(--accent-gold);
+}
+.scroll-container::before,
+.scroll-container::after {
+  content: '';
+  position: absolute;
+  left: -12px; right: -12px;
+  height: 28px;
+  background: linear-gradient(180deg, var(--accent-zhe), var(--accent-gold), var(--accent-zhe));
+  border-radius: 3px;
+  box-shadow: 0 2px 10px var(--shadow-color);
+}
+.scroll-container::before { top: -14px; }
+.scroll-container::after { bottom: -14px; }
+
+/* ===== 敦煌信笺纸 ===== */
+.paper-letter {
+  background: var(--bg-card);
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 31px,
+    var(--border-light) 31px,
+    var(--border-light) 32px
+  );
+  padding: 2.5rem 2rem;
+  line-height: 2;
+  border: 1px solid var(--border-color);
+  position: relative;
+}
+/* 左侧朱砂栏线 */
+.paper-letter::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50px; bottom: 0;
+  width: 1px;
+  background: rgba(184, 74, 58, 0.25);
+}
+
+/* ===== 敦煌牌匾 ===== */
+.plaque-title {
+  display: inline-block;
+  background: linear-gradient(180deg, #5C3A1E, #3D2510);
+  color: var(--accent-gold);
+  font-family: var(--font-title);
+  font-size: 1.5rem;
+  padding: 0.8rem 3rem;
+  letter-spacing: 8px;
+  border: 2px solid var(--accent-gold);
+  border-radius: 3px;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4), inset 0 0 25px rgba(201, 168, 76, 0.15);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+}
+/* 牌匾上下莲花装饰 */
+.plaque-title::before,
+.plaque-title::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px; height: 10px;
+  background: url("data:image/svg+xml,%3Csvg width='30' height='10' viewBox='0 0 30 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 5 Q7 0 15 5 Q23 0 30 5' stroke='%23C9A84C' stroke-width='1' fill='none'/%3E%3Ccircle cx='15' cy='5' r='1.5' fill='%23B84A3A'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.plaque-title::before { top: -12px; }
+.plaque-title::after { bottom: -12px; transform: translateX(-50%) scaleY(-1); }
+
+/* ===== 飞天飘带装饰 ===== */
+.ribbon-divider {
+  height: 4px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--accent-shilu) 15%,
+    var(--accent-gold) 30%,
+    var(--accent-lianban) 50%,
+    var(--accent-gold) 70%,
+    var(--accent-jade) 85%,
+    transparent 100%);
+  background-size: 200% 100%;
+  animation: ribbonFlow 4s ease infinite;
+  margin: 1.5rem 0;
+  border-radius: 2px;
+  opacity: 0.6;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  body { font-size: 15px; }
+  .page-title { font-size: 2rem; letter-spacing: 6px; }
+  .container { padding: 0 15px; }
+  .plaque-title { font-size: 1.2rem; padding: 0.6rem 2rem; letter-spacing: 4px; }
+}
+
+/* ===== 敦煌藻井装饰框 ===== */
+.caisson-frame {
+  position: relative;
+  padding: 2.5rem;
+  background: var(--bg-card);
+  border: 2px solid var(--accent-gold);
+  box-shadow:
+    0 0 0 4px var(--bg-card),
+    0 0 0 6px var(--accent-zhe),
+    0 8px 30px var(--shadow-color);
+}
+.caisson-frame::before {
+  content: '';
+  position: absolute;
+  top: 10px; left: 10px; right: 10px; bottom: 10px;
+  border: 1px solid var(--accent-gold);
+  opacity: 0.4;
+  pointer-events: none;
+}
+.caisson-frame::after {
+  content: '';
+  position: absolute;
+  top: -8px; left: 50%;
+  transform: translateX(-50%);
+  width: 60px; height: 16px;
+  background: var(--accent-gold);
+  clip-path: polygon(0 0, 100% 0, 95% 50%, 100% 100%, 0 100%, 5% 50%);
+  opacity: 0.8;
+}
+
+/* ===== 敦煌火焰纹装饰 ===== */
+.flame-decoration {
+  position: relative;
+  padding-left: 20px;
+}
+.flame-decoration::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg,
+    var(--accent-red) 0%,
+    var(--accent-gold) 50%,
+    var(--accent-zhe) 100%);
+  border-radius: 2px;
+  box-shadow: 0 0 10px rgba(184, 74, 58, 0.3);
+}
+
+/* ===== 敦煌云纹边框 ===== */
+.cloud-border {
+  position: relative;
+  border: 1px solid var(--border-color);
+}
+.cloud-border::before {
+  content: '';
+  position: absolute;
+  top: -2px; left: -2px; right: -2px; bottom: -2px;
+  border: 1px solid var(--accent-gold);
+  opacity: 0.3;
+  pointer-events: none;
+  mask-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10 Q20 5 30 10 Q40 15 50 10 Q60 5 70 10 Q80 15 90 10 M10 90 Q20 95 30 90 Q40 85 50 90 Q60 95 70 90 Q80 85 90 90 M10 10 Q5 20 10 30 Q15 40 10 50 Q5 60 10 70 Q15 80 10 90 M90 10 Q95 20 90 30 Q85 40 90 50 Q95 60 90 70 Q85 80 90 90' stroke='%23000' stroke-width='1' fill='none'/%3E%3C/svg%3E");
+  mask-size: 100px 100px;
+  mask-repeat: repeat;
+}
+
+/* ===== 敦煌石青/石绿渐变文字 ===== */
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent-shilu), var(--accent-jade), var(--accent-shilu));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.gradient-text-gold {
+  background: linear-gradient(135deg, var(--accent-gold), #E8D080, var(--accent-gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ===== 敦煌金粉效果 ===== */
+.gold-sparkle {
+  position: relative;
+  overflow: hidden;
+}
+.gold-sparkle::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 50%; height: 100%;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(201, 168, 76, 0.2),
+    transparent);
+  animation: sparkle 3s ease-in-out infinite;
+}
+@keyframes sparkle {
+  0% { left: -100%; }
+  50% { left: 150%; }
+  100% { left: 150%; }
+}
+
+/* ===== 敦煌壁画淡入效果 ===== */
+.mural-reveal {
+  animation: muralReveal 1.5s ease forwards;
+}
+
+/* ===== 敦煌莲花纹样背景 ===== */
+.lotus-bg {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg opacity='0.08' fill='%23C9A84C'%3E%3Cpath d='M30 15 Q33 10 30 5 Q27 10 30 15 M20 25 Q15 22 12 18 Q17 20 20 25 M40 25 Q45 22 48 18 Q43 20 40 25 M22 35 Q18 38 15 42 Q20 40 22 35 M38 35 Q42 38 45 42 Q40 40 38 35'/%3E%3Ccircle cx='30' cy='28' r='3'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+/* ===== 敦煌飞天飘带动画增强 ===== */
+.flying-ribbon {
+  position: absolute;
+  width: 200px;
+  height: 20px;
+  background: linear-gradient(90deg,
+    transparent,
+    var(--accent-shilu),
+    var(--accent-gold),
+    var(--accent-lianban),
+    transparent);
+  border-radius: 10px;
+  opacity: 0.3;
+  filter: blur(2px);
+  animation: ribbonFloat 8s ease-in-out infinite;
+}
+@keyframes ribbonFloat {
+  0%, 100% { transform: translateX(-50px) translateY(0) rotate(-5deg); }
+  50% { transform: translateX(50px) translateY(-20px) rotate(5deg); }
+}
+
+/* ===== 敦煌石青按钮悬停效果 ===== */
+.btn-shilu {
+  border-color: var(--accent-shilu);
+  color: var(--accent-shilu);
+}
+.btn-shilu:hover {
+  background: var(--accent-shilu);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(42, 122, 154, 0.4);
+}
+
+/* ===== 敦煌石绿按钮悬停效果 ===== */
+.btn-jade {
+  border-color: var(--accent-jade);
+  color: var(--accent-jade);
+}
+.btn-jade:hover {
+  background: var(--accent-jade);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(74, 138, 122, 0.4);
+}
+
+/* ===== 敦煌文章卡片封面悬停效果 ===== */
+.article-cover {
+  position: relative;
+  overflow: hidden;
+}
+.article-cover::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(180deg,
+    transparent 50%,
+    rgba(26, 20, 16, 0.6) 100%);
+  transition: opacity var(--transition-normal);
+  opacity: 1;
+}
+.article-cover:hover::after {
+  opacity: 0.7;
+}
+
+/* ===== 敦煌夜间主题特殊效果 ===== */
+[data-theme="yueye"] body {
+  background-image:
+    url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='mural'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0.1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23mural)' opacity='0.08'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse at 50% 0%, rgba(74, 154, 186, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 20% 80%, rgba(212, 184, 92, 0.08) 0%, transparent 40%);
+}
+
+/* ===== 敦煌印章悬停效果 ===== */
+.seal:hover {
+  transform: rotate(-3deg) scale(1.05);
+  box-shadow: 3px 3px 12px rgba(0,0,0,0.4), inset 0 0 15px rgba(255,255,255,0.2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

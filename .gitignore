@@ -1,0 +1,24 @@
+# 依赖与构建产物（frontend/.gitignore 已覆盖，这里对根目录兜底）
+node_modules/
+dist/
+dist-ssr/
+
+# IDE / 编辑器本地状态：机器相关，不进仓库
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# 日志
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 本地覆盖配置
+*.local
+
+# 系统文件
+.DS_Store
+Thumbs.db
+desktop.ini

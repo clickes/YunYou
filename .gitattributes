@@ -1,0 +1,13 @@
+# 统一行尾为 LF：CI 在 Linux 上跑，工作区当前也已是 LF
+* text=auto eol=lf
+
+# 明确二进制，避免被当成文本处理
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.pdf binary
